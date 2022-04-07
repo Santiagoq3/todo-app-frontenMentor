@@ -1,6 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./todocontainer.css"
 export const TodoContainer = () => {
+
+  const [todoInput, setInputTodos] = useState({
+    todo: "",
+    isDone: false,
+  })
+
+  const [todos, setTodos] = useState([])
+
+  const {todo} = todoInput
+
+  const handleInputChange  =(e)=>{
+    setInputTodos({
+      ...todoInput,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSendForm = (e)=>{
+    e.preventDefault();
+    agregarTodo()
+    console.log(todos)
+  }
+  const agregarTodo = ()=>{
+
+    const todo = {
+      ...todoInput,
+      id: todos.length + 1
+    }
+    setTodos([...todos, todo])
+  }
+
+  const deleteTodo = (id)=>{
+    setTodos(todos.filter(t => t.id !== id))
+  }
   return (
     <main className='todocontainer'>
         <div className='todocontainer_container-theme'>
@@ -9,32 +43,26 @@ export const TodoContainer = () => {
               cambiar theme
             </button>
         </div>
-        <form>
+        <form onSubmitCapture={handleSendForm}>
             <div className='todocontainer_container-input'>
-                <input type="text" placeholder='Create a new todo' autoFocus />
+                <input name='todo' value={todo} type="text" placeholder='Create a new todo' autoFocus onChange={handleInputChange} />
             </div>
         </form>
         <div className='todocontainer_container-todo'>
           <ul>
-            <li>
-              <div className='todocontainer_container-todo-title'>
-                <input type="radio" />
-                <p>Learn React</p>
-              </div>
-              <button>
-                delete
-              </button>
-            </li>
-            
-            <li>
-              <div className='todocontainer_container-todo-title'>
-                <input type="radio" />
-                <p>Learn React</p>
-              </div>
-              <button>
-                delete
-              </button>
-            </li>
+            {
+              todos.map(t => {
+                return <li key={t.id}>
+                  <div className='todocontainer_container-todo-title'>
+                    <input type="radio" />
+                    <p>{t.todo}</p>
+                  </div>
+                  <button onClick={()=> deleteTodo(t.id)}>
+                    delete
+                  </button>
+              </li>
+              })
+            }
           </ul>
           <div className='todocontainer_container-actions'>
             <button>
