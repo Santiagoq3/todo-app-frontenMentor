@@ -11,13 +11,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Josefin Sans', sans-serif;
   min-height: 100vh;
-  border: 1px solid red;
   background-color:#ccc;
+  background-image: url(../public/images/bg-desktop-dark.jpg);
+  background-repeat: no-repeat;
   
 }
 
 body::before{
-  content: "";
+  /* content: "";
   height: clamp(12.5rem, 24vw, 18.75rem);
   background-image: url(../public/images/bg-desktop-dark.jpg);
   background-repeat: no-repeat;
@@ -25,6 +26,13 @@ body::before{
   padding-top: clamp(2.375rem, 4vw, 2.5rem);
   position: absolute;
   top: 0;
-  width: 100%;
+  width: 100%; */
+}
+
+@media (max-width: 375px) {
+
+  body{
+    background-image: url(../public/images/bg-mobile-dark.jpg);
+  }
 }
 
