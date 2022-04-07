@@ -11,7 +11,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Josefin Sans', sans-serif;
   min-height: 100vh;
-  background-color:#ccc;
+  background-color: hsl(235, 21%, 11%);
   background-image: url(../public/images/bg-desktop-dark.jpg);
   background-repeat: no-repeat;
   
