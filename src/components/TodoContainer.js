@@ -7,6 +7,7 @@ export const TodoContainer = () => {
     isDone: false,
   })
   const [todos, setTodos] = useState([])
+  const [todosStored, setTodosStored] = useState([])
   const {todo} = todoInput
 
   const handleInputChange  =(e)=>{
@@ -31,10 +32,37 @@ export const TodoContainer = () => {
       id: todos.length + 1
     }
     setTodos([...todos, todo])
+    setTodosStored([...todos,todo])
   }
 
   const deleteTodo = (id)=>{
     setTodos(todos.filter(t => t.id !== id))
+    setTodosStored(todos.filter(t => t.id !== id))
+  }
+
+  const setCompleteTodo = (id)=>{
+    let todosAux = [...todos]
+    todosAux.forEach(t =>{
+      if(t.id == id){
+        t.isDone = true
+      }
+    })
+    setTodos(todosAux)
+    setTodosStored(todosAux)
+  }
+
+  const getTodosCompleted = ()=>{
+    let todosAux = todos.filter(t => t.isDone == true)
+    setTodos(todosAux)
+  }
+
+  const getTodosActive = ()=>{
+    let todosAux = todos.filter(t => t.isDone == false)
+    setTodos(todosAux)
+  }
+
+  const getAllTodos = ()=>{
+    setTodos(todosStored)
   }
   return (
     <main className='todocontainer'>
@@ -53,8 +81,10 @@ export const TodoContainer = () => {
               todos.map(t => {
                 return <li key={t.id}>
                   <div className='todocontainer_container-todo-title'>
-                    <input type="radio" />
-                    <p>{t.todo}</p>
+                    {/* <div className='container_icon-check-img'>
+                      <img src='./images/icon-check.svg' />
+                    </div> */}
+                    <p onClick={()=> setCompleteTodo(t.id)}>{t.todo}</p>
                   </div>
                   <span onClick={()=> deleteTodo(t.id)}>
                     <img src='./images/icon-cross.svg' />
@@ -64,13 +94,13 @@ export const TodoContainer = () => {
             }
           </ul>
           <div className='todocontainer_container-actions'>
-            <button>
+            <button onClick={getAllTodos}>
               All
             </button>
-            <button>
+            <button onClick={getTodosActive}>
               Active
             </button>
-            <button>
+            <button onClick={getTodosCompleted}>
               Completed
             </button>
           </div>

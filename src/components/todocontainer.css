@@ -93,3 +93,9 @@
     outline: none;
     cursor: pointer;
 }
+
+.container_icon-check-img{
+    border: 2px solid #ccc;
+    padding: 4px;
+    border-radius: 50%;
+}
