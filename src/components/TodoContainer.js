@@ -6,9 +6,7 @@ export const TodoContainer = () => {
     todo: "",
     isDone: false,
   })
-
   const [todos, setTodos] = useState([])
-
   const {todo} = todoInput
 
   const handleInputChange  =(e)=>{
@@ -21,7 +19,10 @@ export const TodoContainer = () => {
   const handleSendForm = (e)=>{
     e.preventDefault();
     agregarTodo()
-    console.log(todos)
+    setInputTodos({
+      todo: "",
+      isDone: false,
+    })
   }
   const agregarTodo = ()=>{
 
@@ -39,9 +40,7 @@ export const TodoContainer = () => {
     <main className='todocontainer'>
         <div className='todocontainer_container-theme'>
             <h1>T O D O</h1>
-            <button>
-              cambiar theme
-            </button>
+            <img src='./images/icon-moon.svg' />
         </div>
         <form onSubmitCapture={handleSendForm}>
             <div className='todocontainer_container-input'>
@@ -57,9 +56,9 @@ export const TodoContainer = () => {
                     <input type="radio" />
                     <p>{t.todo}</p>
                   </div>
-                  <button onClick={()=> deleteTodo(t.id)}>
-                    delete
-                  </button>
+                  <span onClick={()=> deleteTodo(t.id)}>
+                    <img src='./images/icon-cross.svg' />
+                  </span>
               </li>
               })
             }
