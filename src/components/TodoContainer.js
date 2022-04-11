@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import "./todocontainer.css"
 export const TodoContainer = () => {
 
@@ -6,8 +6,16 @@ export const TodoContainer = () => {
     todo: "",
     isDone: false,
   })
-  const [todos, setTodos] = useState([])
-  const [todosStored, setTodosStored] = useState([])
+  const [todos, setTodos] = useState(()=>{
+    const savedTodos = localStorage.getItem("todos")
+
+    if(savedTodos){
+      return JSON.parse(savedTodos)
+    }else{
+      return []
+    }
+  })
+  const [displayTodos, setDisplayTodos] = useState([])
   const {todo} = todoInput
 
   const handleInputChange  =(e)=>{
@@ -16,6 +24,11 @@ export const TodoContainer = () => {
       [e.target.name]: e.target.value
     })
   }
+
+  useEffect(()=>{
+    localStorage.setItem("todos", JSON.stringify(todos))
+    setDisplayTodos(todos)
+  },[todos])
 
   const handleSendForm = (e)=>{
     e.preventDefault();
@@ -32,12 +45,11 @@ export const TodoContainer = () => {
       id: todos.length + 1
     }
     setTodos([...todos, todo])
-    setTodosStored([...todos,todo])
+    
   }
 
   const deleteTodo = (id)=>{
     setTodos(todos.filter(t => t.id !== id))
-    setTodosStored(todos.filter(t => t.id !== id))
   }
 
   const setCompleteTodo = (id)=>{
@@ -48,21 +60,22 @@ export const TodoContainer = () => {
       }
     })
     setTodos(todosAux)
-    setTodosStored(todosAux)
   }
 
   const getTodosCompleted = ()=>{
     let todosAux = todos.filter(t => t.isDone == true)
-    setTodos(todosAux)
+    setDisplayTodos(todosAux)
+    console.log(todosAux)
   }
 
   const getTodosActive = ()=>{
     let todosAux = todos.filter(t => t.isDone == false)
-    setTodos(todosAux)
+    setDisplayTodos(todosAux)
+    // console.log(todosAux)
   }
 
   const getAllTodos = ()=>{
-    setTodos(todosStored)
+    setDisplayTodos(todos)
   }
   return (
     <main className='todocontainer'>
@@ -78,7 +91,7 @@ export const TodoContainer = () => {
         <div className='todocontainer_container-todo'>
           <ul>
             {
-              todos.map(t => {
+              displayTodos.map(t => {
                 return <li key={t.id}>
                   <div className='todocontainer_container-todo-title'>
                     {/* <div className='container_icon-check-img'>
